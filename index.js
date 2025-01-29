@@ -6,8 +6,8 @@ import mqtt from 'mqtt';  // Importar mqtt
 const app = express();
 
 // Definir el puerto en el que el servidor escuchará
-const port = 4500;
-
+const port = process.env.PORT || 4500;
+/*
 // Configurar cliente MQTT
 //const mqttClient = mqtt.connect('mqtt://localhost:1883');  // Conéctate a tu broker
 const mqttClient = mqtt.connect('mqtt://host.docker.internal:1883');
@@ -23,7 +23,7 @@ mqttClient.on('error', (err) => {
 mqttClient.on('close', () => {
   console.log('Conexión con el broker MQTT cerrada');
 });
-
+*/
 // Hacer que Express pueda manejar datos JSON en el cuerpo de las solicitudes
 app.use(express.json());
 
@@ -41,11 +41,13 @@ app.post('/', (req, res) => {
   if (state !== 'Prendido' && state !== 'Apagado') {
     return res.status(400).json({ error: 'Estado no válido' });
   }
+  /*
   mqttClient.publish('test/topic', state, (error) => {
     if (error) {
       console.error('Error al publicar el mensaje:', error);
       return res.status(500).json({ error: 'Error al publicar mensaje MQTT' });
     }});
+    */
     console.log('Mensaje enviado al topic "test/topic": ',state);
     // Devolver una respuesta con el estado actualizado
     res.json({ message: `El estado del botón es ahora: ${state}` });
