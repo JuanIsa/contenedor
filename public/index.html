@@ -50,7 +50,7 @@
             }
 
             // Enviar el estado al backend usando fetch
-            fetch('http://localhost:4500', {
+            fetch('${window.location.origin}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
