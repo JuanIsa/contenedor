@@ -51,6 +51,7 @@
 
             // Enviar el estado al backend usando fetch
             let direccion = `${window.location.protocol}``://${window.location.hostname}`;
+            console.log(`${window.location.protocol}``://${window.location.hostname}`);
             fetch(direccion, {
                 method: 'POST',
                 headers: {
