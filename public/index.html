@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botón de Prender/Apagar</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        #estado {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <button id="boton" style="background-color: green;">Prender</button>
+    <p id="estado">Estado: Apagado</p>
+
+    <script>
+        // Obtener referencias al botón y al texto de estado
+        const boton = document.getElementById('boton');
+        const estado = document.getElementById('estado');
+
+        // Función para cambiar el estado
+        boton.addEventListener('click', () => {
+            // Determinar el nuevo estado basado en el texto del botón
+            const nuevoEstado = boton.textContent === 'Prender' ? 'Prendido' : 'Apagado';
+            
+            // Cambiar el texto y el color del botón localmente
+            if (boton.textContent === 'Prender') {
+                boton.textContent = 'Apagar';
+                boton.style.backgroundColor = 'red';
+                estado.textContent = 'Estado: Prendido';
+            } else {
+                boton.textContent = 'Prender';
+                boton.style.backgroundColor = 'green';
+                estado.textContent = 'Estado: Apagado';
+            }
+
+            // Enviar el estado al backend usando fetch
+            fetch('http://localhost:4500', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ state: nuevoEstado }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);  // Mostrar mensaje recibido del servidor en la consola
+            })
+            .catch(error => {
+                console.error('Error al cambiar el estado:', error);
+            });
+        });
+    </script>
+</body>
+</html>
